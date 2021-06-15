@@ -415,7 +415,7 @@ $(document).ready(function () {
 
 
 
-    $('#uploadbutton').click(function() { $('#myTable').append('<table>');});
+   
 
     async function uploadbutton() {
         if (window.ethereum)
@@ -438,7 +438,7 @@ $(document).ready(function () {
 
         let contract = web3.eth.contract(productRegistryContractABI).at(productRegistryContractAddress);
 
-        contract.addProStru(WhatName, WhatContent, function (err, result) {
+        contract.addJournal(WhatName, WhatContent, function (err, result) {
             if (err)
                 return showError("Smart contract call failed: " + err);
             showInfo(`Document ${result} <b>successfully added</b> to the registry.`);
