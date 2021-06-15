@@ -15,9 +15,6 @@ contract agricultureContract {
         uint timestamp;
     }
 
-
-
-
     journal[] public journals;
 
     constructor() public {        

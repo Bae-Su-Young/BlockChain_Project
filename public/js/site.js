@@ -4,157 +4,321 @@ const {
 const selectedAddress = web3.eth.defaultAccount
 
 $(document).ready(function () {
-    const productRegistryContractAddress = '0xF3Edb9f62117e797C39271aF000142aBd3a6dA6F';
-    const productRegistryContractABI = [{
-            "constant": false,
-            "inputs": [{
-                    "name": "_initNumber",
-                    "type": "uint256"
-                },
-                {
-                    "name": "_firstString",
-                    "type": "string"
-                },
-                {
-                    "name": "_secondString",
-                    "type": "string"
-                }
-            ],
-            "name": "addProStru",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
+    const productRegistryContractAddress = '0x05F82769a7aE4a08A7c68C722705daf78854492b';
+    const productRegistryContractABI =
+    [
+        {
+           "constant": false,
+           "inputs": [
+              {
+                 "name": "_spender",
+                 "type": "address"
+              },
+              {
+                 "name": "_value",
+                 "type": "uint256"
+              }
+           ],
+           "name": "approve",
+           "outputs": [
+              {
+                 "name": "success",
+                 "type": "bool"
+              }
+           ],
+           "payable": false,
+           "stateMutability": "nonpayable",
+           "type": "function"
         },
         {
-            "constant": false,
-            "inputs": [],
-            "name": "killContract",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
+           "constant": false,
+           "inputs": [
+              {
+                 "name": "_spender",
+                 "type": "address"
+              },
+              {
+                 "name": "_value",
+                 "type": "uint256"
+              },
+              {
+                 "name": "_extraData",
+                 "type": "bytes"
+              }
+           ],
+           "name": "approveAndCall",
+           "outputs": [
+              {
+                 "name": "success",
+                 "type": "bool"
+              }
+           ],
+           "payable": false,
+           "stateMutability": "nonpayable",
+           "type": "function"
         },
         {
-            "inputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "constructor"
+           "constant": false,
+           "inputs": [
+              {
+                 "name": "_to",
+                 "type": "address"
+              },
+              {
+                 "name": "_value",
+                 "type": "uint256"
+              }
+           ],
+           "name": "transfer",
+           "outputs": [
+              {
+                 "name": "success",
+                 "type": "bool"
+              }
+           ],
+           "payable": false,
+           "stateMutability": "nonpayable",
+           "type": "function"
         },
         {
-            "constant": true,
-            "inputs": [],
-            "name": "getAllproducts",
-            "outputs": [{
-                "components": [{
-                        "name": "number",
-                        "type": "uint256"
-                    },
-                    {
-                        "name": "productName",
-                        "type": "string"
-                    },
-                    {
-                        "name": "location",
-                        "type": "string"
-                    },
-                    {
-                        "name": "timestamp",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "",
-                "type": "tuple[]"
-            }],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
+           "constant": false,
+           "inputs": [
+              {
+                 "name": "_from",
+                 "type": "address"
+              },
+              {
+                 "name": "_to",
+                 "type": "address"
+              },
+              {
+                 "name": "_value",
+                 "type": "uint256"
+              }
+           ],
+           "name": "transferFrom",
+           "outputs": [
+              {
+                 "name": "success",
+                 "type": "bool"
+              }
+           ],
+           "payable": false,
+           "stateMutability": "nonpayable",
+           "type": "function"
         },
         {
-            "constant": true,
-            "inputs": [],
-            "name": "getNumOfProducts",
-            "outputs": [{
-                "name": "",
-                "type": "uint8"
-            }],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
+           "inputs": [],
+           "payable": false,
+           "stateMutability": "nonpayable",
+           "type": "constructor"
         },
         {
-            "constant": true,
-            "inputs": [{
-                "name": "_index",
-                "type": "uint256"
-            }],
-            "name": "getProductStruct",
-            "outputs": [{
-                    "name": "",
-                    "type": "uint256"
-                },
-                {
-                    "name": "",
-                    "type": "string"
-                },
-                {
-                    "name": "",
-                    "type": "string"
-                },
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
+           "payable": true,
+           "stateMutability": "payable",
+           "type": "fallback"
         },
         {
-            "constant": true,
-            "inputs": [{
-                "name": "",
-                "type": "uint256"
-            }],
-            "name": "productes",
-            "outputs": [{
-                    "name": "number",
-                    "type": "uint256"
-                },
-                {
-                    "name": "productName",
-                    "type": "string"
-                },
-                {
-                    "name": "location",
-                    "type": "string"
-                },
-                {
-                    "name": "timestamp",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
+           "anonymous": false,
+           "inputs": [
+              {
+                 "indexed": true,
+                 "name": "_from",
+                 "type": "address"
+              },
+              {
+                 "indexed": true,
+                 "name": "_to",
+                 "type": "address"
+              },
+              {
+                 "indexed": false,
+                 "name": "_value",
+                 "type": "uint256"
+              }
+           ],
+           "name": "Transfer",
+           "type": "event"
+        },
+        {
+           "anonymous": false,
+           "inputs": [
+              {
+                 "indexed": true,
+                 "name": "_owner",
+                 "type": "address"
+              },
+              {
+                 "indexed": true,
+                 "name": "_spender",
+                 "type": "address"
+              },
+              {
+                 "indexed": false,
+                 "name": "_value",
+                 "type": "uint256"
+              }
+           ],
+           "name": "Approval",
+           "type": "event"
+        },
+        {
+           "constant": true,
+           "inputs": [
+              {
+                 "name": "_owner",
+                 "type": "address"
+              },
+              {
+                 "name": "_spender",
+                 "type": "address"
+              }
+           ],
+           "name": "allowance",
+           "outputs": [
+              {
+                 "name": "remaining",
+                 "type": "uint256"
+              }
+           ],
+           "payable": false,
+           "stateMutability": "view",
+           "type": "function"
+        },
+        {
+           "constant": true,
+           "inputs": [
+              {
+                 "name": "_owner",
+                 "type": "address"
+              }
+           ],
+           "name": "balanceOf",
+           "outputs": [
+              {
+                 "name": "balance",
+                 "type": "uint256"
+              }
+           ],
+           "payable": false,
+           "stateMutability": "view",
+           "type": "function"
+        },
+        {
+           "constant": true,
+           "inputs": [],
+           "name": "decimals",
+           "outputs": [
+              {
+                 "name": "",
+                 "type": "uint8"
+              }
+           ],
+           "payable": false,
+           "stateMutability": "view",
+           "type": "function"
+        },
+        {
+           "constant": true,
+           "inputs": [],
+           "name": "fundsWallet",
+           "outputs": [
+              {
+                 "name": "",
+                 "type": "address"
+              }
+           ],
+           "payable": false,
+           "stateMutability": "view",
+           "type": "function"
+        },
+        {
+           "constant": true,
+           "inputs": [],
+           "name": "name",
+           "outputs": [
+              {
+                 "name": "",
+                 "type": "string"
+              }
+           ],
+           "payable": false,
+           "stateMutability": "view",
+           "type": "function"
+        },
+        {
+           "constant": true,
+           "inputs": [],
+           "name": "symbol",
+           "outputs": [
+              {
+                 "name": "",
+                 "type": "string"
+              }
+           ],
+           "payable": false,
+           "stateMutability": "view",
+           "type": "function"
+        },
+        {
+           "constant": true,
+           "inputs": [],
+           "name": "totalEthInWei",
+           "outputs": [
+              {
+                 "name": "",
+                 "type": "uint256"
+              }
+           ],
+           "payable": false,
+           "stateMutability": "view",
+           "type": "function"
+        },
+        {
+           "constant": true,
+           "inputs": [],
+           "name": "totalSupply",
+           "outputs": [
+              {
+                 "name": "",
+                 "type": "uint256"
+              }
+           ],
+           "payable": false,
+           "stateMutability": "view",
+           "type": "function"
+        },
+        {
+           "constant": true,
+           "inputs": [],
+           "name": "unitsOneEthCanBuy",
+           "outputs": [
+              {
+                 "name": "",
+                 "type": "uint256"
+              }
+           ],
+           "payable": false,
+           "stateMutability": "view",
+           "type": "function"
+        },
+        {
+           "constant": true,
+           "inputs": [],
+           "name": "version",
+           "outputs": [
+              {
+                 "name": "",
+                 "type": "string"
+              }
+           ],
+           "payable": false,
+           "stateMutability": "view",
+           "type": "function"
         }
-    ]
+     ]
 
-    $('#linkHome').click(function () {
-        showView("viewHome")
-    });
 
-    $('#linkSubmitDocument').click(function () {
-        showView("viewSubmitDocument");
-        showTable();
-    });
-
-    $('#linkVerifyDocument').click(function () {
-        showView("viewVerifyDocument")
-    });
-    
-    $('#uploadbutton').click(uploadbutton);
-    $('#showTableButton').click(showTable);
 
     $('#contractLink').text(productRegistryContractAddress);
     $('#contractLink').attr('href', 'https://ropsten.etherscan.io/address/' + productRegistryContractAddress);
@@ -168,20 +332,6 @@ $(document).ready(function () {
             $("#loadingBox").hide()
         }
     });
-
-    function showView(viewName) {
-        // Hide all views and show the selected view only
-        $('main > section').hide();
-        $('#' + viewName).show();
-    }
-
-    function showInfo(message) {
-        $('#infoBox>p').html(message);
-        $('#infoBox').show();
-        $('#infoBox>header').click(function () {
-            $('#infoBox').hide();
-        });
-    }
 
     function showError(errorMsg) {
         $('#errorBox>p').html("Error: " + errorMsg);
@@ -264,6 +414,8 @@ $(document).ready(function () {
     }
 
 
+
+    $('#uploadbutton').click(function() { $('#myTable').append('<table>');});
 
     async function uploadbutton() {
         if (window.ethereum)
