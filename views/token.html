@@ -19,15 +19,17 @@
     <li>정시 출근 : 1 Token</li>
     <h5>▶ 모은 Token으로 식권 구매 가능</h5>
     <br>
-    <h4>계정 <input id="address" size="45" placeholder="" value=""></input> </h4>
-	<h4>비밀번호 <input id="password" size="45" placeholder="" value=""></input> </h4>
+    <h5>본인계정 <input id="useraddress" size="45" placeholder="" value=""></input> </h5>
+    <h5>식권구매처 <input id="toaddress" size="45" placeholder=""></input> </h5>
+	<h5>비밀번호 <input type="password" id="passwd" size="45" placeholder="" value=""></input> </h5>
+    <h5>코인 <input id="sendcoin" size="45" placeholder=""></input> </h5>
     <br>
     <label>식권구매:
-        <input type="button" id="itembuy" value="구매" />
+        <button id="itembuy">구매</button>
     </label>
     <br>
-    <label> 현황:
-            <input type="button" id="showTableButton" value="Show" />
+    <label>
+            <button id="getBalance">잔액조회</button>
     </label>
 </body>
 
