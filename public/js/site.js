@@ -176,7 +176,11 @@ $(document).ready(function () {
             $('#errorBox').hide();
         });
     }
-
+    function showInfo(message) {
+        $('#infoBox>p').html(message);
+        $('#infoBox').show();
+        $('#infoBox>header').click(function(){ $('#infoBox').hide(); });
+    }
 
     $('#showTableButton').click(showTable);
     async function showTable() {
