@@ -1,12 +1,9 @@
-const {
-    web3
-} = window
-const selectedAddress = web3.eth.defaultAccount
+const { web3 } = window
+const selectedAddress = web3.eth.defaultAccount//메타마스크 열면 보이는 계정을 default계정이라고 함
 
-$(document).ready(function () {
-    const productRegistryContractAddress = '0xd71EAfc6feb07fDeFC1C50b80BD82a789E6efb23';
-    const productRegistryContractABI =
-    [
+$(document).ready(function() {
+    const productRegistryContractAddress = '0xd71EAfc6feb07fDeFC1C50b80BD82a789E6efb23';// CA
+    const productRegistryContractABI =[
         {
             "constant": false,
             "inputs": [
@@ -155,132 +152,162 @@ $(document).ready(function () {
     ]
 
 
+	//버튼 클릭 시 뷰가 보이도록 함.
+    $('#linkHome').click(function() { showView("viewHome") });
+    $('#linkSubmitDocument').click(function() { showView("viewSubmitDocument"); showTable();  });
+    $('#linkVerifyDocument').click(function() { showView("viewVerifyDocument") });
+    $('#itemUploadButton').click(itemUploadButton);
+    $('#showTableButton').click(showTable);
 
+	
     $('#contractLink').text(productRegistryContractAddress);
     $('#contractLink').attr('href', 'https://ropsten.etherscan.io/address/' + productRegistryContractAddress);
-
+	    
     // Attach AJAX "loading" event listener
     $(document).on({
-        ajaxStart: function () {
-            $("#loadingBox").show()
-        },
-        ajaxStop: function () {
-            $("#loadingBox").hide()
-        }
+        ajaxStart: function() { $("#loadingBox").show() },
+        ajaxStop: function() { $("#loadingBox").hide() }    
     });
-
-    function showError(errorMsg) {
-        $('#errorBox>p').html("Error: " + errorMsg);
-        $('#errorBox').show();
-        $('#errorBox>header').click(function () {
-            $('#errorBox').hide();
-        });
+    
+    function showView(viewName) {
+        // Hide all views and show the selected view only
+        $('main > section').hide();
+        $('#' + viewName).show();
     }
+    
     function showInfo(message) {
         $('#infoBox>p').html(message);
         $('#infoBox').show();
         $('#infoBox>header').click(function(){ $('#infoBox').hide(); });
     }
 
-    $('#showTableButton').click(showTable);
-    async function showTable() {
+    function showError(errorMsg) {
+        $('#errorBox>p').html("Error: " + errorMsg);
+        $('#errorBox').show();
+        $('#errorBox>header').click(function(){ $('#errorBox').hide(); });
+    }
+
+	async function showTable() {
         // $('#viewSubmitDocument>table').html( );
         // $('#viewSubmitDocument').show();
 
-        if (window.ethereum)
-            try {
-                await window.ethereum.enable();
-            } catch (err) {
+		if (window.ethereum)//현재 메타마스크와 연결되어있는가?
+			try {
+				await window.ethereum.enable();//연결되어 있으면 메타마스크를 enable함
+			} catch (err) {
                 return showError("Access to your Ethereum account rejected.");
-            }
-        if (typeof web3 === 'undefined')
-            return showError("Please install MetaMask to access the Ethereum Web3 injected API from your Web browser.");
+			}
+		if (typeof web3 === 'undefined')
+                return showError("Please install MetaMask to access the Ethereum Web3 injected API from your Web browser.");
+		
+
+		let contract = web3.eth.contract(productRegistryContractABI).at(productRegistryContractAddress);
 
 
-        let contract = web3.eth.contract(productRegistryContractABI).at(productRegistryContractAddress);
+		$('#myTable').append(  '<table>' );
+
+	
+		//스마트컨트랙트 함수
+		contract.getNumOfJournals(function(err, result) {
+			if (err)
+				return showError("Smart contract call failed: " + err);
+			
+				
+			// showInfo(`Document ${result} <b>successfully added</b> to the registry.`);
+			console.log("length: " + result);
+
+			for (let i = 0; i < result; i++) {
+
+				contract.getProductStruct(i, function(err, product) {
+
+					console.log("product: " + product);
+
+					let toString = product.toString();
+					// console.log("product: " + toString);
+					let strArray = toString.split(",");
+
+					let timestamp = new Date(strArray[3]*1000);
+					console.log("timestamp: " + timestamp);
+					console.log("timestamp: " + strArray[3]*1000);
+
+					// let row = table.insertRow();
+					// let cell1 = row.insertCell(0);
+					// let cell2 = row.insertCell(1);
+					// let cell3 = row.insertCell(2);
+					// let cell4 = row.insertCell(3);
+					// cell1.innerHTML = strArray[0];
+					// cell2.innerHTML = strArray[1];
+					// cell3.innerHTML = strArray[2];
+					// cell4.style.width ="60%";
+					// cell4.innerHTML = timestamp;
+
+					$('#myTable').append( '<tr><td>' + strArray[0] + ", "+ strArray[1] + ", "+ strArray[2] + ", "+ timestamp  + '</td></tr>' );
+
+				})  // end of get
+
+			} // end of for
+
+		}); 
 
 
-        $('#myTable').append('<table>');
+		
 
+		
 
+		// for(i=0;i<3;i++){
+		// 	$('#myTable').append( '<tr><td>' + 'result' +  i + '</td></tr>' );
+		// }		
 
-        contract.getNumOfJournals(function (err, result) {
-            if (err)
-                return showError("Smart contract call failed: " + err);
-
-
-            // showInfo(`Document ${result} <b>successfully added</b> to the registry.`);
-            console.log("length: " + result);
-
-            for (let i = 0; i < result; i++) {
-
-                contract.getProductStruct(i, function (err, product) {
-
-                    console.log("product: " + product);
-
-                    let toString = product.toString();
-                    // console.log("product: " + toString);
-                    let strArray = toString.split(",");
-
-                    let timestamp = new Date(strArray[3] * 1000);
-                    console.log("timestamp: " + timestamp);
-                    console.log("timestamp: " + strArray[3] * 1000);
-
-                    // let row = table.insertRow();
-                    // let cell1 = row.insertCell(0);
-                    // let cell2 = row.insertCell(1);
-                    // let cell3 = row.insertCell(2);
-                    // let cell4 = row.insertCell(3);
-                    // cell1.innerHTML = strArray[0];
-                    // cell2.innerHTML = strArray[1];
-                    // cell3.innerHTML = strArray[2];
-                    // cell4.style.width ="60%";
-                    // cell4.innerHTML = timestamp;
-
-                }) // end of get
-
-            } // end of for
-
-        });
-
-
-
-
-
-
-        // for(i=0;i<3;i++){
-        // 	$('#myTable').append( '<tr><td>' + 'result' +  i + '</td></tr>' );
-        // 
+ 		$('#myTable').append(  '</table>' );
 
     }
     
-    $('#loadbutton').click(loadbutton);
+    async function itemUploadButton() {
+        // if ($('#documentForUpload')[0].files.length == 0)
+            // return showError("Please select a file to upload.");
 
-    async function loadbutton() {
-        if (window.ethereum)
-            try {
-                await window.ethereum.enable();
-            } catch (err) {
-                return showErroe("Access to your Ethereum account rejected")
-            }
-        if (typeof web3 === 'undefined')
-            return showError("Please install MetaMask to access the Ethereum Web3 injected API from your Web browser.");
+		if (window.ethereum)
+			try {
+				await window.ethereum.enable();
+			} catch (err) {
+                return showError("Access to your Ethereum account rejected.");
+			}
+		if (typeof web3 === 'undefined')
+                return showError("Please install MetaMask to access the Ethereum Web3 injected API from your Web browser.");
+			
+		let account = selectedAddress 
+		console.log("my account " , account);
+		
+		let howMany = $("#pronumber").val();
+		console.log("howMany " , howMany);
 
-        let account = selectedAddress
-        console.log("my account", account);
+		let productName = $("#proname").val();
+		console.log("productName " , productName);
 
-        let WhatName = $('#name').val();
-        console.log("WhatName ", WhatName);
+		let whereIs = $("#proloc").val();
+		console.log("whereIs " , whereIs);
+		
+		let contract = web3.eth.contract(productRegistryContractABI).at(productRegistryContractAddress);
 
-        let WhatContent = $('#content').val();
-        console.log("WhatContent ", WhatContent);
+		//파라메터를 스마트컨트랙트에 보냄
+		contractaddJournal(howMany, productName, whereIs, function(err, result) {
+			if (err)
+				return showError("Smart contract call failed: " + err);
+			showInfo(`Document ${result} <b>successfully added</b> to the registry.`);
+		}); 
+		
+    }
 
-        let contract = web3.eth.contract(productRegistryContractABI).at(productRegistryContractAddress);
+    function verifyDocument() {
+		
+		
+		if (typeof web3 === 'undefined')
+                return showError("Please install MetaMask to access the Ethereum Web3 injected API from your Web browser.");
+			
+		let account = selectedAddress 
+		console.log("my account " , account);
+		
 
-        contract.addJournal(WhatName, WhatContent, function (err, result) {
-            if (err)
-                return showError("Smart contract call failed: " + err);
-            showInfo(`Document ${result} <b>successfully added</b> to the registry.`);
-        });
+ 
     }
 });
