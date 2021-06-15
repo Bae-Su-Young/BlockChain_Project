@@ -10,9 +10,9 @@ contract agricultureContract {
     //구조체
     struct journal {
         uint   number;
-        string user;
-        string journal;
-        uint timestamp;
+        string user;//근무자
+        string journal;//내용
+        uint timestamp;//날짜
     }
 
     journal[] public journals;

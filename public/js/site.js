@@ -413,8 +413,10 @@ $(document).ready(function () {
 
     }
 
+    
 
 
+    $('#uploadbutton').click(uploadbutton);
    
 
     async function uploadbutton() {
