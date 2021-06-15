@@ -4,31 +4,31 @@ module.exports = function(app)
         res.render('index.html');//localhost:3000하면 실행되는 것(=index.html).
     });
 
-    app.get('/attend',function(req,res){
+    app.get('/attendance.html',function(req,res){
         res.render('attendance.html');
     });
 
-    app.get('/contract',function(req,res){
+    app.get('/contract.html',function(req,res){
         res.render('contract.html');
     });
 
-    app.get('/mgr',function(req,res){
+    app.get('/manager.html',function(req,res){
         res.render('manager.html');
     });
 
-    app.get('/noti',function(req,res){
+    app.get('/notification.html',function(req,res){
         res.render('notification.html');
     });
 
-    app.get('/site-show',function(req,res){
+    app.get('/site_show.html',function(req,res){
         res.render('site_show.html');
     });
 
-    app.get('/site-register',function(req,res){
+    app.get('/site_registration.html',function(req,res){
         res.render('site_registration.html');
     });
 
-    app.get('/token',function(req,res){
+    app.get('/token.html',function(req,res){
         res.render('token.html');
     });
 	
