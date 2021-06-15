@@ -249,10 +249,10 @@ $(document).ready(function () {
         // 
 
     }
+    
+    $('#loadbutton').click(loadbutton);
 
-    $('#uploadbutton').click(uploadbutton);
-
-    async function uploadbutton() {
+    async function loadbutton() {
         if (window.ethereum)
             try {
                 await window.ethereum.enable();
