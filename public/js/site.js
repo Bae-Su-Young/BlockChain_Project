@@ -276,7 +276,7 @@ $(document).ready(function() {
 		console.log("name " , user);
 
         let d= new Date();
-        let mills=d.getMilliseconds
+        let mills=d.getMilliseconds();
 
 		let contract = web3.eth.contract(productRegistryContractABI).at(productRegistryContractAddress);
 
