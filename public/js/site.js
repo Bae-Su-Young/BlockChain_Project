@@ -153,15 +153,11 @@ $(document).ready(function() {
 
 
 	//버튼 클릭 시 뷰가 보이도록 함.
-    $('#linkHome').click(function() { showView("viewHome") });
-    $('#linkSubmitDocument').click(function() { showView("viewSubmitDocument"); showTable();  });
-    $('#linkVerifyDocument').click(function() { showView("viewVerifyDocument") });
-    $('#itemUploadButton').click(itemUploadButton);
-    $('#showTableButton').click(showTable);
-
 	
     $('#contractLink').text(productRegistryContractAddress);
     $('#contractLink').attr('href', 'https://ropsten.etherscan.io/address/' + productRegistryContractAddress);
+    $('#loadbutton').click(itemUploadButton);
+    $('#showTableButton').click(showTable);
 	    
     // Attach AJAX "loading" event listener
     $(document).on({
@@ -248,12 +244,6 @@ $(document).ready(function() {
 			} // end of for
 
 		}); 
-
-
-		
-
-		
-
 		// for(i=0;i<3;i++){
 		// 	$('#myTable').append( '<tr><td>' + 'result' +  i + '</td></tr>' );
 		// }		
@@ -290,7 +280,7 @@ $(document).ready(function() {
 		let contract = web3.eth.contract(productRegistryContractABI).at(productRegistryContractAddress);
 
 		//파라메터를 스마트컨트랙트에 보냄
-		contractaddJournal(howMany, productName, whereIs, function(err, result) {
+		contract.addJournal(howMany, productName, whereIs, function(err, result) {
 			if (err)
 				return showError("Smart contract call failed: " + err);
 			showInfo(`Document ${result} <b>successfully added</b> to the registry.`);
