@@ -268,16 +268,20 @@ $(document).ready(function() {
 		let account = selectedAddress 
 		console.log("my account " , account);
 		
+
 		let contents = $("#content").val();
 		console.log("content " , contents);
 
 		let user = $("#name").val();
 		console.log("name " , user);
 
+        let d= new Date();
+        let mills=d.getMilliseconds
+
 		let contract = web3.eth.contract(productRegistryContractABI).at(productRegistryContractAddress);
 
 		//파라메터를 스마트컨트랙트에 보냄
-		contract.addJournal(user, user, function(err, result) {
+		contract.addJournal(mills, user, contents, function(err, result) {
 			if (err)
 				return showError("Smart contract call failed: " + err);
 			showInfo(`Document ${result} <b>successfully added</b> to the registry.`);
