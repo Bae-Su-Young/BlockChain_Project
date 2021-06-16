@@ -268,19 +268,16 @@ $(document).ready(function() {
 		let account = selectedAddress 
 		console.log("my account " , account);
 		
-		let howMany = $("#pronumber").val();
-		console.log("howMany " , howMany);
+		let contents = $("#content").val();
+		console.log("content " , contents);
 
-		let productName = $("#proname").val();
-		console.log("productName " , productName);
+		let user = $("#name").val();
+		console.log("name " , user);
 
-		let whereIs = $("#proloc").val();
-		console.log("whereIs " , whereIs);
-		
 		let contract = web3.eth.contract(productRegistryContractABI).at(productRegistryContractAddress);
 
 		//파라메터를 스마트컨트랙트에 보냄
-		contract.addJournal(howMany, productName, whereIs, function(err, result) {
+		contract.addJournal(user, user, function(err, result) {
 			if (err)
 				return showError("Smart contract call failed: " + err);
 			showInfo(`Document ${result} <b>successfully added</b> to the registry.`);
